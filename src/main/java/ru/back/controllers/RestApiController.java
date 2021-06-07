@@ -1,6 +1,5 @@
 package ru.back.controllers;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
@@ -13,7 +12,6 @@ import ru.back.mapper.ContentMapper;
 import ru.back.model.Content;
 import ru.back.model.ContentList;
 import ru.back.model.MeduzaNews;
-
 import java.util.List;
 
 @RestController
@@ -27,10 +25,11 @@ public class RestApiController {
 
     @GetMapping(value = "/news", produces = MediaType.APPLICATION_JSON_VALUE)
     public ContentList news(@RequestParam(value = "page", required = false, defaultValue = "0") String page) throws JsonProcessingException {
+        //сами новости находятся на "/", если не ошибаюсь
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("https://meduza.io/api/v3/search?chrono=news&locale=ru&page=")
                 .append(page)
-                .append("&per_page=10");
+                .append("&per_page=10");//10 новостей за страницу - гениально
         String url = stringBuilder.toString();
         WebClient webClient = WebClient.create();
         String responseJson = webClient.get()
